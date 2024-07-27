@@ -18,22 +18,21 @@ export default function Preferences({ selected, onChange }) {
   }
   return (
     <>
-      {preferenceOptions.map(({ icon, label }) => {
-        return (
-          <label
-            className="cursor-pointer border p-4 flex rounded-2xl gap-2 items-center"
-            key={label}
-          >
-            <input
-              type="checkbox"
-              name={label}
-              onChange={handleCheckboxClick}
-            />
-            <img className="h-4" src={icon} />
-            <span>{label}</span>
-          </label>
-        );
-      })}
+      {preferenceOptions.map(({ icon, label }) => (
+        <label
+          className="cursor-pointer border p-4 flex rounded-2xl gap-2 items-center"
+          key={label}
+        >
+          <input
+            type="checkbox"
+            checked={selected.includes(label)}
+            name={label}
+            onChange={handleCheckboxClick}
+          />
+          <img className="h-4" src={icon} />
+          <span>{label}</span>
+        </label>
+      ))}
     </>
   );
 }

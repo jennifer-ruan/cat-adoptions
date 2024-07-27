@@ -9,6 +9,7 @@ import { UserContextProvider } from "./UserContext";
 import Profile from "./pages/Profile";
 import Adoptions from "./pages/Adoptions";
 import CatForm from "./pages/CatForm";
+import CatPage from "./pages/CatPage";
 
 axios.defaults.baseURL = "http://127.0.0.1:4000";
 axios.defaults.withCredentials = true;
@@ -24,6 +25,8 @@ function App() {
           <Route path="/account" element={<Profile />} />
           <Route path="/account/adopted" element={<Adoptions />} />
           <Route path="/account/adopted/new" element={<CatForm />} />
+          <Route path="/account/adopted/:id" element={<CatForm />} />
+          <Route path="/cat/:id" element={<CatPage />} />
         </Route>
       </Routes>
     </UserContextProvider>

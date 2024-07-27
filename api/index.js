@@ -112,7 +112,7 @@ app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
 
 app.post("/cats", (req, res) => {
   const { token } = req.cookies;
-  const { name, age, location, photos, description } = req.body;
+  const { name, age, location, photos, description, preferences } = req.body;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
@@ -123,8 +123,53 @@ app.post("/cats", (req, res) => {
         location,
         photos,
         description,
+        preferences,
       });
       res.json(cat);
+    });
+  }
+});
+
+app.get("/cats", async (req, res) => {
+  res.json(await Cat.find());
+});
+
+app.get("/user-cats", (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      const { id } = userData;
+      res.json(await Cat.find({ shelter: id }));
+    });
+  }
+});
+
+app.get("/cats/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Cat.findById(id));
+});
+
+app.put("/cats", async (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    const { id, name, age, location, photos, description, preferences } =
+      req.body;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      const catData = await Cat.findById(id);
+      if (catData.shelter.toString() === userData.id) {
+        catData.set({
+          name,
+          age,
+          location,
+          photos,
+          description,
+          preferences,
+        });
+        await catData.save();
+        res.json("okay");
+      }
     });
   }
 });

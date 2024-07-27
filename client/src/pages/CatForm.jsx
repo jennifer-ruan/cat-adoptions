@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Preferences from "../components/Preferences";
 import PhotosUploader from "../components/PhotosUploader";
 import AccountNav from "../components/AccountNav";
+import { Navigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function CatForm() {
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [location, setLocation] = useState("");
   const [photos, setPhotos] = useState([]);
   const [description, setDescription] = useState("");
   const [preferences, setPreferences] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  useEffect(() => {
+    if (!id) return;
+    axios.get("/cats/" + id).then((response) => {
+      const { data } = response;
+      setName(data.name);
+      setAge(data.age);
+      setLocation(data.location);
+      setPhotos(data.photos);
+      setDescription(data.description);
+      setPreferences(data.preferences);
+    });
+  }, [id]);
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
   }
@@ -24,23 +40,32 @@ export default function CatForm() {
       </>
     );
   }
-
-  async function addNewCat(e) {
+  async function saveCat(e) {
     e.preventDefault();
-    await axios.post("/cats", {
+    const catData = {
       name,
       age,
       location,
       photos,
       description,
       preferences,
-    });
+    };
+    if (id) {
+      await axios.put("/cats", { id, ...catData });
+    } else {
+      await axios.post("/cats", catData);
+    }
+    setRedirect(true);
+  }
+
+  if (redirect) {
+    return <Navigate to={"/account/adopted"} />;
   }
 
   return (
     <div>
       <AccountNav />
-      <form onSubmit={addNewCat}>
+      <form onSubmit={saveCat}>
         {preInput("Name", "name of the cat.")}
         <input
           type="text"
