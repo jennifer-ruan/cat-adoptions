@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 const Cat = require("./models/Cat");
+const Message = require("./models/Message");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
@@ -170,6 +171,23 @@ app.put("/cats", async (req, res) => {
         await catData.save();
         res.json("okay");
       }
+    });
+  }
+});
+
+app.post("/messages", (req, res) => {
+  const { token } = req.cookies;
+  const { cat, message, recipient } = req.body;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      const messageObject = await Message.create({
+        sender: userData.id,
+        cat,
+        message,
+        recipient,
+      });
+      res.json(messageObject);
     });
   }
 });

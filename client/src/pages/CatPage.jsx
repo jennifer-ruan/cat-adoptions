@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import MessageForm from "../components/MessageForm";
 
 export default function CatPage() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function CatPage() {
       <div className="absolute inset-0 text-white min-h-screen">
         <div className="bg-black p-8 grid gap-4 justify-center">
           <div>
-            <h2 className="text-3xl">Photos of {cat.name}</h2>
+            <h2 className="text-3xl mr-48">Photos of {cat.name}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
               className="bg-white text-black right-12 top-8 shadow shadow-black flex gap-1 py-2 px-4 rounded-2xl fixed"
@@ -70,6 +71,21 @@ export default function CatPage() {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+          />
+        </svg>
+        SHELTER_NAME
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
           />
           <path
@@ -86,7 +102,8 @@ export default function CatPage() {
             {cat.photos?.[0] && (
               <div>
                 <img
-                  className="aspect-square object-cover min-w-full"
+                  onClick={() => setShowAllPhotos(true)}
+                  className="aspect-square cursor-pointer object-cover min-w-full"
                   src={"http://localhost:4000/uploads/" + cat.photos[0]}
                 />
               </div>
@@ -95,14 +112,16 @@ export default function CatPage() {
           <div className="grid">
             {cat.photos?.[1] && (
               <img
-                className="aspect-square object-cover"
+                onClick={() => setShowAllPhotos(true)}
+                className="aspect-square cursor-pointer object-cover"
                 src={"http://localhost:4000/uploads/" + cat.photos[1]}
               />
             )}
             {cat.photos?.[2] && (
               <div className="overflow-hidden">
                 <img
-                  className="aspect-square object-cover relative top-2"
+                  onClick={() => setShowAllPhotos(true)}
+                  className="aspect-square cursor-pointer object-cover relative top-2"
                   src={"http://localhost:4000/uploads/" + cat.photos[2]}
                 />
               </div>
@@ -130,9 +149,14 @@ export default function CatPage() {
           Show more photos
         </button>
       </div>
-      <div className="my-4">
-        <h2 className="font-semibold text-2xl">Description</h2>
-        {cat.description}
+      <div className="mt-8 gap-8 grid grid-cols-1 md:grid-cols-[2fr_2fr]">
+        <div className="my-2">
+          <h2 className="font-semibold text-2xl">Description</h2>
+          {cat.description}
+        </div>
+        <div>
+          <MessageForm cat={cat} />
+        </div>
       </div>
       <div className="grid grid-cols-2">
         <div></div>
