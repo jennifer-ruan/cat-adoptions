@@ -24,6 +24,15 @@ app.use(cors({ credentials: true, origin: "http://127.0.0.1:5173" }));
 
 mongoose.connect(process.env.MONGO_URL);
 
+function getUserDataFromToken(req) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      resolve(userData);
+    });
+  });
+}
+
 app.get("/test", (req, res) => {
   res.json("test ok");
 });
@@ -111,39 +120,29 @@ app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
   res.json(uploadedFiles);
 });
 
-app.post("/cats", (req, res) => {
-  const { token } = req.cookies;
+app.post("/cats", async (req, res) => {
+  const userData = await getUserDataFromToken(req);
   const { name, age, location, photos, description, preferences } = req.body;
-  if (token) {
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const cat = await Cat.create({
-        shelter: userData.id,
-        name,
-        age,
-        location,
-        photos,
-        description,
-        preferences,
-      });
-      res.json(cat);
-    });
-  }
+  const cat = await Cat.create({
+    shelter: userData.id,
+    name,
+    age,
+    location,
+    photos,
+    description,
+    preferences,
+  });
+  res.json(cat);
 });
 
 app.get("/cats", async (req, res) => {
   res.json(await Cat.find());
 });
 
-app.get("/user-cats", (req, res) => {
-  const { token } = req.cookies;
-  if (token) {
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const { id } = userData;
-      res.json(await Cat.find({ shelter: id }));
-    });
-  }
+app.get("/user-cats", async (req, res) => {
+  const userData = await getUserDataFromToken(req);
+  const { id } = userData;
+  res.json(await Cat.find({ shelter: id }));
 });
 
 app.get("/cats/:id", async (req, res) => {
@@ -152,44 +151,40 @@ app.get("/cats/:id", async (req, res) => {
 });
 
 app.put("/cats", async (req, res) => {
-  const { token } = req.cookies;
-  if (token) {
-    const { id, name, age, location, photos, description, preferences } =
-      req.body;
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const catData = await Cat.findById(id);
-      if (catData.shelter.toString() === userData.id) {
-        catData.set({
-          name,
-          age,
-          location,
-          photos,
-          description,
-          preferences,
-        });
-        await catData.save();
-        res.json("okay");
-      }
+  const userData = await getUserDataFromToken(req);
+  const { id, name, age, location, photos, description, preferences } =
+    req.body;
+  const catData = await Cat.findById(id);
+  if (catData.shelter.toString() === userData.id) {
+    catData.set({
+      name,
+      age,
+      location,
+      photos,
+      description,
+      preferences,
     });
+    await catData.save();
+    res.json("okay");
   }
 });
 
-app.post("/messages", (req, res) => {
-  const { token } = req.cookies;
+app.post("/messages", async (req, res) => {
+  const userData = await getUserDataFromToken(req);
   const { cat, message, recipient } = req.body;
-  if (token) {
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const messageObject = await Message.create({
-        sender: userData.id,
-        cat,
-        message,
-        recipient,
-      });
-      res.json(messageObject);
-    });
-  }
+  const messageObject = await Message.create({
+    sender: userData.id,
+    cat,
+    message,
+    recipient,
+    reply: null,
+  });
+  res.json(messageObject);
+});
+
+app.get("/messages", async (req, res) => {
+  const userData = await getUserDataFromToken(req);
+  res.json(await Message.find({ sender: userData.id }));
 });
 
 app.listen(4000);
