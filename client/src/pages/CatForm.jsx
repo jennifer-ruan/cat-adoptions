@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function CatForm() {
   const { id } = useParams();
+  const [isNew, setIsNew] = useState(true);
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [location, setLocation] = useState("");
@@ -24,6 +25,7 @@ export default function CatForm() {
       setPhotos(data.photos);
       setDescription(data.description);
       setPreferences(data.preferences);
+      setIsNew(false);
     });
   }, [id]);
   function inputHeader(text) {
@@ -56,6 +58,14 @@ export default function CatForm() {
       await axios.post("/cats", catData);
     }
     setRedirect(true);
+  }
+
+  async function deleteCat(e) {
+    e.preventDefault();
+    if (confirm("Are you sure you want to delete this cat?")) {
+      alert("Cat has been deleted!");
+      setRedirect(true);
+    }
   }
 
   if (redirect) {
@@ -107,7 +117,18 @@ export default function CatForm() {
         <div className="mt-2 gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           <Preferences selected={preferences} onChange={setPreferences} />
         </div>
-        <button className="primary my-4">Save</button>
+        {isNew ? (
+          <button className="primary my-4" onClick>
+            Create
+          </button>
+        ) : (
+          <div className="flex gap-4">
+            <button className="primary my-4">Save</button>
+            <button className="my-4 p-2 w-full rounded-2xl" onClick={deleteCat}>
+              Delete
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

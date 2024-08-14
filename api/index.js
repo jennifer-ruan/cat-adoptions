@@ -169,6 +169,24 @@ app.put("/cats", async (req, res) => {
   }
 });
 
+app.delete("/cats/:id", async (req, res) => {
+  const { id } = req.params;
+  const userData = await getUserDataFromReq(req);
+
+  const catData = await Cat.findById(id);
+  if (!catData) {
+    return res.status(404).json({ error: "Cat not found" });
+  }
+  if (!catData.shelter === userData.id) {
+    return res.status(400).json({ error: "Cat does not belong to this user" });
+  }
+  try {
+    await Cat.findByIdAndDelete(id);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while deleting the cat" });
+  }
+});
+
 app.post("/messages", async (req, res) => {
   const userData = await getUserDataFromReq(req);
   const { cat, message, recipient } = req.body;
