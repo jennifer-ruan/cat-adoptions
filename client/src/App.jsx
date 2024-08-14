@@ -25,12 +25,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Profile />} />
-          <Route path="/account/adopted" element={<Adoptions />} />
-          <Route path="/account/adopted/new" element={<CatForm />} />
-          <Route path="/account/adopted/:id" element={<CatForm />} />
+          <Route path="/account/cats" element={<Adoptions />} />
+          <Route path="/account/cats/new" element={<CatForm />} />
+          <Route path="/account/cats/:id" element={<CatForm />} />
           <Route path="/cat/:id" element={<CatPage />} />
-          <Route path="/account/cats" element={<Requests />} />
-          <Route path="/account/cats/:id" element={<Request />} />
+          <Route path="/account/messages" element={<Requests />} />
+          <Route path="/account/messages/:id" element={<Request />} />
         </Route>
       </Routes>
     </UserContextProvider>

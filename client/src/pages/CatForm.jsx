@@ -59,7 +59,7 @@ export default function CatForm() {
   }
 
   if (redirect) {
-    return <Navigate to={"/account/adopted"} />;
+    return <Navigate to={"/account/cats"} />;
   }
 
   return (

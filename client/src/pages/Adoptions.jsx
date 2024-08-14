@@ -17,7 +17,7 @@ export default function Adoptions() {
       <div className="text-center">
         <Link
           className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
-          to={"/account/adopted/new"}
+          to={"/account/cats/new"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export default function Adoptions() {
         {cats.length > 0 &&
           cats.map((cat) => (
             <Link
-              to={"/account/adopted/" + cat._id}
+              to={"/account/cats/" + cat._id}
               className="flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl"
             >
               <div className="flex w-32 h-32 bg-gray-300 shrink-0">

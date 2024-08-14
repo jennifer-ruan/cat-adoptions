@@ -18,7 +18,7 @@ export default function Requests() {
       <div>
         {messages?.length > 0 &&
           messages.map((message) => (
-            <Link to={`/account/cats/${message._id}`}>
+            <Link to={`/account/messages/${message._id}`}>
               <div className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden">
                 <div className="w-24">
                   <CatImg cat={message.cat} />

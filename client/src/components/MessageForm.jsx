@@ -9,7 +9,7 @@ export default function MessageForm({ cat }) {
     const data = { cat: cat._id, message, recipient: cat.shelter };
     const response = await axios.post("/messages", data);
     const messageId = response.data._id;
-    setRedirect(`/account/cats/${messageId}`);
+    setRedirect(`/account/messages/${messageId}`);
   }
   if (redirect) {
     return <Navigate to={redirect} />;

@@ -35,7 +35,7 @@ export default function AccountNav() {
         </svg>
         Settings
       </Link>
-      <Link className={linkClasses("cats")} to={"/account/cats"}>
+      <Link className={linkClasses("messages")} to={"/account/messages"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -52,7 +52,7 @@ export default function AccountNav() {
         </svg>
         Messages
       </Link>
-      <Link className={linkClasses("adopted")} to={"/account/adopted"}>
+      <Link className={linkClasses("cats")} to={"/account/cats"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
