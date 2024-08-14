@@ -32,7 +32,7 @@ export default function Profile() {
   }
   return (
     <div>
-      <AccountNav />
+      <AccountNav user={user} />
       {subpage === "settings" && (
         <div className="text-center max-w-lg mx-auto">
           Logged in as {user.name} ({user.email})

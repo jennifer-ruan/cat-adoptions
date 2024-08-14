@@ -79,8 +79,8 @@ app.get("/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const { name, email, _id } = await User.findById(userData.id);
-      res.json({ name, email, _id });
+      const { name, email, _id, type } = await User.findById(userData.id);
+      res.json({ name, email, _id, type });
     });
   } else {
     res.json(null);
@@ -189,15 +189,31 @@ app.delete("/cats/:id", async (req, res) => {
 
 app.post("/messages", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  const { cat, message, recipient } = req.body;
-  const messageObject = await Message.create({
-    sender: userData.id,
-    cat,
-    message,
-    recipient,
-    reply: null,
-  });
-  res.json(messageObject);
+  const { cat, message, recipient, parentMessageId } = req.body;
+
+  if (!parentMessageId) {
+    // This is the first message
+    const messageObject = await Message.create({
+      sender: userData.id,
+      cat,
+      message,
+      replies: [],
+    });
+    res.json(messageObject);
+  } else {
+    const parentMessage = await Message.findById(parentMessageId);
+    if (!parentMessage) {
+      return res.status(404).json({ error: "Message not found" });
+    }
+    const replyObject = {
+      sender: userData.id,
+      message,
+      replies: [],
+    };
+    parentMessage.replies.push(replyObject);
+    await parentMessage.save();
+    res.json({ message: "Reply added successfully", parentMessage });
+  }
 });
 
 app.get("/messages", async (req, res) => {

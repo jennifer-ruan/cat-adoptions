@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Preferences from "../components/Preferences";
 import PhotosUploader from "../components/PhotosUploader";
 import AccountNav from "../components/AccountNav";
 import { Navigate, useParams } from "react-router-dom";
+import { UserContext } from "../UserContext";
 import axios from "axios";
 
 export default function CatForm() {
@@ -15,6 +16,8 @@ export default function CatForm() {
   const [description, setDescription] = useState("");
   const [preferences, setPreferences] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const { user, ready } = useContext(UserContext);
+
   useEffect(() => {
     if (!id) return;
     axios.get("/cats/" + id).then((response) => {
@@ -28,6 +31,7 @@ export default function CatForm() {
       setIsNew(false);
     });
   }, [id]);
+
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
   }
@@ -72,9 +76,12 @@ export default function CatForm() {
     return <Navigate to={"/account/cats"} />;
   }
 
+  if (!ready) {
+    return "Loading...";
+  }
   return (
     <div>
-      <AccountNav />
+      <AccountNav user={user} />
       <form onSubmit={saveCat}>
         {preInput("Name", "name of the cat.")}
         <input
@@ -123,10 +130,10 @@ export default function CatForm() {
           </button>
         ) : (
           <div className="flex gap-4">
-            <button className="primary my-4">Save</button>
             <button className="my-4 p-2 w-full rounded-2xl" onClick={deleteCat}>
               Delete
             </button>
+            <button className="primary my-4">Save</button>
           </div>
         )}
       </form>
