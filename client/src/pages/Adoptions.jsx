@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CatImg from "../components/CatImg";
 
 export default function Adoptions() {
   const [cats, setCats] = useState([]);
@@ -43,12 +44,7 @@ export default function Adoptions() {
               className="flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl"
             >
               <div className="flex w-32 h-32 bg-gray-300 shrink-0">
-                {cat.photos.length > 0 && (
-                  <img
-                    className="object-cover aspect-square"
-                    src={"http://localhost:4000/uploads/" + cat.photos[0]}
-                  />
-                )}
+                <CatImg cat={cat} />
               </div>
               <div className="grow-0 shrink">
                 <h2 className="text-xl">{cat.name}</h2>

@@ -24,7 +24,7 @@ app.use(cors({ credentials: true, origin: "http://127.0.0.1:5173" }));
 
 mongoose.connect(process.env.MONGO_URL);
 
-function getUserDataFromToken(req) {
+function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
     jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
@@ -121,7 +121,7 @@ app.post("/upload", photosMiddleware.array("photos", 100), (req, res) => {
 });
 
 app.post("/cats", async (req, res) => {
-  const userData = await getUserDataFromToken(req);
+  const userData = await getUserDataFromReq(req);
   const { name, age, location, photos, description, preferences } = req.body;
   const cat = await Cat.create({
     shelter: userData.id,
@@ -140,7 +140,7 @@ app.get("/cats", async (req, res) => {
 });
 
 app.get("/user-cats", async (req, res) => {
-  const userData = await getUserDataFromToken(req);
+  const userData = await getUserDataFromReq(req);
   const { id } = userData;
   res.json(await Cat.find({ shelter: id }));
 });
@@ -151,7 +151,7 @@ app.get("/cats/:id", async (req, res) => {
 });
 
 app.put("/cats", async (req, res) => {
-  const userData = await getUserDataFromToken(req);
+  const userData = await getUserDataFromReq(req);
   const { id, name, age, location, photos, description, preferences } =
     req.body;
   const catData = await Cat.findById(id);
@@ -170,7 +170,7 @@ app.put("/cats", async (req, res) => {
 });
 
 app.post("/messages", async (req, res) => {
-  const userData = await getUserDataFromToken(req);
+  const userData = await getUserDataFromReq(req);
   const { cat, message, recipient } = req.body;
   const messageObject = await Message.create({
     sender: userData.id,
@@ -183,8 +183,8 @@ app.post("/messages", async (req, res) => {
 });
 
 app.get("/messages", async (req, res) => {
-  const userData = await getUserDataFromToken(req);
-  res.json(await Message.find({ sender: userData.id }));
+  const userData = await getUserDataFromReq(req);
+  res.json(await Message.find({ sender: userData.id }).populate("cat"));
 });
 
 app.listen(4000);
