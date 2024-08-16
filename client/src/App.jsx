@@ -7,11 +7,11 @@ import Layout from "./Layout";
 import axios from "axios";
 import { UserContextProvider } from "./UserContext";
 import Profile from "./pages/Profile";
-import Adoptions from "./pages/Adoptions";
+import Cats from "./pages/Cats";
 import CatForm from "./pages/CatForm";
 import CatPage from "./pages/CatPage";
-import Requests from "./pages/Requests";
-import Request from "./pages/Request";
+import Messages from "./pages/Messages";
+import Chat from "./pages/Chat";
 
 axios.defaults.baseURL = "http://127.0.0.1:4000";
 axios.defaults.withCredentials = true;
@@ -25,12 +25,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Profile />} />
-          <Route path="/account/cats" element={<Adoptions />} />
+          <Route path="/account/cats" element={<Cats />} />
           <Route path="/account/cats/new" element={<CatForm />} />
           <Route path="/account/cats/:id" element={<CatForm />} />
           <Route path="/cat/:id" element={<CatPage />} />
-          <Route path="/account/messages" element={<Requests />} />
-          <Route path="/account/messages/:id" element={<Request />} />
+          <Route path="/account/messages" element={<Messages />} />
+          <Route path="/account/messages/:id" element={<Chat />} />
         </Route>
       </Routes>
     </UserContextProvider>

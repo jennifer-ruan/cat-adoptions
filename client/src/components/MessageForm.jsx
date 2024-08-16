@@ -6,7 +6,7 @@ export default function MessageForm({ cat }) {
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState("");
   async function sendMessage() {
-    const data = { cat: cat._id, message, recipient: cat.shelter };
+    const data = { cat: cat._id, message };
     const response = await axios.post("/messages", data);
     const messageId = response.data._id;
     setRedirect(`/account/messages/${messageId}`);

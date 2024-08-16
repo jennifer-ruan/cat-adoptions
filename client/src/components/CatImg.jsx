@@ -3,11 +3,11 @@ export default function CatImg({ cat, index = 0, className = null }) {
     return "";
   }
   if (!className) {
-    className = "object-cover";
+    className = "object-cover aspect-square";
   }
   return (
     <img
-      className="object-cover aspect-square"
+      className={className}
       src={"http://localhost:4000/uploads/" + cat.photos[0]}
     />
   );

@@ -7,10 +7,15 @@ input[type="password"],
 input[type="email"],
 input[type="number"],
 textarea {
-  @apply w-full border my-1 py-2 px-3 rounded-2xl;
+  @apply w-full border my-1 py-2 px-3 rounded-2xl outline-none;
 }
 textarea {
   height: 140px;
+  @apply outline-none;
+}
+select {
+  margin-top: -2px;
+  @apply outline-none pr-2;
 }
 button {
   @apply bg-gray-300;
@@ -18,4 +23,9 @@ button {
 button.primary {
   background-color: #b342bb;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
+}
+button.chat {
+  width: 100px;
+  height: 50px;
+  @apply rounded-full my-1 px-3 py-2;
 }

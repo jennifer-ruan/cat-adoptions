@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import CatImg from "../components/CatImg";
 
-export default function Adoptions() {
+export default function Cats() {
   const [cats, setCats] = useState([]);
   const { user, ready } = useContext(UserContext);
   useEffect(() => {

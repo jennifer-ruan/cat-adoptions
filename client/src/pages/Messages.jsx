@@ -6,7 +6,7 @@ import { UserContext } from "../UserContext";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
-export default function Requests() {
+export default function Messages() {
   const [messages, setMessages] = useState([]);
   const { user, ready } = useContext(UserContext);
   useEffect(() => {

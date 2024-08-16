@@ -189,13 +189,21 @@ app.delete("/cats/:id", async (req, res) => {
 
 app.post("/messages", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  const { cat, message, recipient, parentMessageId } = req.body;
+  const { cat, message, parentMessageId } = req.body;
+
+  console.log("This is the data", message, parentMessageId);
 
   if (!parentMessageId) {
     // This is the first message
+    const catData = await Cat.findById(cat);
+    if (!catData) {
+      return res.status(404).json({ error: "Cat not found" });
+    }
+
     const messageObject = await Message.create({
-      sender: userData.id,
       cat,
+      sender: userData.id,
+      recipient: catData.shelter,
       message,
       replies: [],
     });
@@ -205,8 +213,11 @@ app.post("/messages", async (req, res) => {
     if (!parentMessage) {
       return res.status(404).json({ error: "Message not found" });
     }
+    const firstSender = parentMessage.sender;
+    const firstRecipient = parentMessage.recipient;
     const replyObject = {
       sender: userData.id,
+      recipient: userData.id === firstSender ? firstRecipient : firstSender,
       message,
       replies: [],
     };
@@ -218,7 +229,26 @@ app.post("/messages", async (req, res) => {
 
 app.get("/messages", async (req, res) => {
   const userData = await getUserDataFromReq(req);
-  res.json(await Message.find({ sender: userData.id }).populate("cat"));
+  const messages = await Message.find({
+    $or: [{ sender: userData.id }, { recipient: userData.id }],
+  }).populate("cat");
+  res.json(messages);
+});
+
+app.get("/messages/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const message = await Message.findById(id).populate("cat");
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" });
+    }
+    res.json([message, ...message.replies]);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving replies" });
+  }
 });
 
 app.listen(4000);

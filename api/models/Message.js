@@ -5,6 +5,7 @@ const replySchema = new Schema({
   message: { type: String, required: true },
   sender: { type: mongoose.Schema.Types.ObjectId, required: true },
   sentAt: { type: Date, default: Date.now },
+  recipient: { type: mongoose.Schema.Types.ObjectId, required: true },
   replies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 });
 
@@ -13,6 +14,7 @@ const messageSchema = new Schema({
   message: { type: String, required: true },
   sender: { type: mongoose.Schema.Types.ObjectId, required: true },
   sentAt: { type: Date, default: Date.now },
+  recipient: { type: mongoose.Schema.Types.ObjectId, required: true },
   replies: [replySchema],
 });
 
