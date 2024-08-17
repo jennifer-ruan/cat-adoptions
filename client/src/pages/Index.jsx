@@ -33,7 +33,7 @@ export default function Index() {
   return (
     <div>
       <div className="flex justify-center items-start mt-6">
-        <div className="font-bold bg-white flex gap-2 border border-gray-300 rounded-full py-2 px-8 text-xl">
+        <div className="bg-white flex gap-2 border border-gray-300 rounded-full py-2 px-8 text-xl">
           <div>I'm looking for...</div>
           <select onChange={(e) => setAgeFilter(e.target.value)}>
             <option selected value="All">

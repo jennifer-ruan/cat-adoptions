@@ -94,7 +94,7 @@ export default function Header() {
             />
           </svg>
         </div>
-        {!!user && <div>{user.name}</div>}
+        <div>{!!user ? user.name : "Sign In"}</div>
       </Link>
     </header>
   );
