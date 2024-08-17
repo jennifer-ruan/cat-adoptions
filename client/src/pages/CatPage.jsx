@@ -57,7 +57,7 @@ export default function CatPage() {
   }
 
   return (
-    <div className="mt-4 bg-gray-100 -m-8 px-8 py-8">
+    <div className="mt-4 bg-white rounded-xl mb-2 -m-8 px-8 py-8">
       <h1 className="text-3xl">{cat.name}</h1>
       <h2 className="my-3 block font-semibold flex gap-1">
         <svg

@@ -26,14 +26,14 @@ export default function Messages() {
             .sort((a, b) => (a.sentAt < b.sentAt ? 1 : -1))
             .map((message) => (
               <Link to={`/account/messages/${message._id}`}>
-                <div className="mb-2 flex gap-4 border border-gray-200 rounded-2xl overflow-hidden shadow-md shadow-gray-300">
+                <div className="bg-white mb-2 flex gap-4 border border-gray-200 rounded-2xl overflow-hidden shadow-md">
                   <div className="w-24">
                     <CatImg cat={message.cat} />
                   </div>
                   <div className="py-3 grow pr-3">
                     <div className="flex justify-between">
-                      <h2 className="text-xl">{message.cat.name}</h2>
-                      <p className="text-sm text-gray-500">
+                      <h2 className="text-xl font-bold">{message.cat.name}</h2>
+                      <p className="text-sm">
                         {format(new Date(message.sentAt), "MMM dd")}
                       </p>
                     </div>

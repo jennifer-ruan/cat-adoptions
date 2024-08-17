@@ -11,13 +11,13 @@ export default function AccountNav({ user }) {
     if (type === subpage) {
       classes += " bg-primary text-white";
     } else {
-      classes += " bg-gray-200";
+      classes += " bg-white";
     }
     return classes;
   }
 
   return (
-    <nav className="w-full flex justify-center mt-4 gap-2 mb-8">
+    <nav className="w-full flex justify-center mt-6 gap-2 mb-8 font-bold text-lg">
       <Link className={linkClasses("settings")} to={"/account"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

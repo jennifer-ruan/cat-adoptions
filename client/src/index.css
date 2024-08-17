@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #f8e9a1;
+  color: #2b1700;
+}
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -15,17 +23,23 @@ textarea {
 }
 select {
   margin-top: -2px;
-  @apply outline-none pr-2;
+  @apply bg-white outline-none pr-2;
 }
 button {
-  @apply bg-gray-300;
+  @apply bg-white;
 }
 button.primary {
-  background-color: #b342bb;
+  background-color: #f7882f;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
 button.chat {
   width: 100px;
   height: 50px;
   @apply rounded-full my-1 px-3 py-2;
+}
+.satisfy-regular {
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: #80471c;
 }

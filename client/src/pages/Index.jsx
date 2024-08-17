@@ -32,8 +32,8 @@ export default function Index() {
   const filteredCats = filterCats();
   return (
     <div>
-      <div className="flex justify-center items-start -mt-11">
-        <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
+      <div className="flex justify-center items-start mt-6">
+        <div className="font-bold bg-white flex gap-2 border border-gray-300 rounded-full py-2 px-8 text-xl">
           <div>I'm looking for...</div>
           <select onChange={(e) => setAgeFilter(e.target.value)}>
             <option selected value="All">
@@ -47,22 +47,27 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-4 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredCats.length > 0 &&
           filteredCats.map((cat) => (
-            <Link to={"/cat/" + cat._id}>
-              <div className="bg-gray-500 rounded-2xl flex mb-2">
+            <Link
+              to={"/cat/" + cat._id}
+              className="bg-white rounded-2xl overflow-hidden shadow shadow-md"
+            >
+              <div className="flex mb-2">
                 {cat.photos?.[0] && (
                   <img
-                    className="rounded-2xl object-cover aspect-square"
+                    className="object-cover aspect-square"
                     src={"http://localhost:4000/uploads/" + cat.photos?.[0]}
                   />
                 )}
               </div>
-              <h2 className="font-bold">{cat.name}</h2>
-              <h3 className="text-sm text-gray-500">{getCatAge(cat.age)}</h3>
-              <div className="mt-1">
-                <span>{cat.location}</span>
+              <div className="px-4 pb-2">
+                <h2 className="font-bold text-2xl">{cat.name}</h2>
+                <h3 className="text-md text-gray-500">{getCatAge(cat.age)}</h3>
+                <div className="mt-1">
+                  <span>{cat.location}</span>
+                </div>
               </div>
             </Link>
           ))}

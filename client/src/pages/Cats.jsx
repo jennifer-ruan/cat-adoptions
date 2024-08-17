@@ -46,14 +46,14 @@ export default function Cats() {
           cats.map((cat) => (
             <Link
               to={"/account/cats/" + cat._id}
-              className="mb-2 flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl"
+              className="mb-2 flex cursor-pointer gap-4 bg-white p-4 rounded-2xl"
             >
-              <div className="flex w-32 h-32 bg-gray-300 shrink-0">
+              <div className="flex w-32 h-32 bg-white shrink-0">
                 <CatImg cat={cat} />
               </div>
               <div className="grow-0 shrink">
-                <h2 className="text-xl">{cat.name}</h2>
-                <p className="text-sm mt-2">{cat.description}</p>
+                <h2 className="text-xl font-bold">{cat.name}</h2>
+                <p className="text-md mt-1">{cat.description}</p>
               </div>
             </Link>
           ))}

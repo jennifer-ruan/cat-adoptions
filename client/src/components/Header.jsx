@@ -6,44 +6,80 @@ export default function Header() {
   const { user } = useContext(UserContext);
 
   return (
-    <header className="flex justify-between">
-      <Link to={"/"} className="flex items-center gap-1">
+    <header className="relative flex justify-between items-center">
+      <div className="w-1/3"></div>
+
+      <Link
+        to={"/"}
+        className="absolute left-1/2 transform -translate-x-1/2 flex items-centered gap-4"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
+          width="40"
+          height="40"
+          viewBox="0 0 56 56 "
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-          />
+          <g fill="none">
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-width="4"
+              d="M42 26C42 34.8366 33.9411 42 24 42C14.0589 42 6 34.8366 6 26M15 12.1405C17.6476 10.7792 20.7214 10 24 10C27.2786 10 30.3524 10.7792 33 12.1405"
+            />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M6 26V8.48814C6 6.757 8.05005 5.84346 9.33729 7.00098L15 12.093"
+            />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M42 26V8.48814C42 6.757 39.9499 5.84346 38.6627 7.00098L33 12.093"
+            />
+            <circle cx="30" cy="22" r="2" fill="#80471c" />
+            <circle cx="18" cy="22" r="2" fill="#80471c" />
+            <circle cx="24" cy="28" r="2" fill="#80471c" />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M16 30L4 31"
+            />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M19 35L7 41"
+            />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M32 30L44 31"
+            />
+            <path
+              stroke="#80471c"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M29 35L41 41"
+            />
+          </g>
         </svg>
-
-        <span className="font-bold text-xl">Adopt a Cat</span>
+        <span className="satisfy-regular text-4xl">Adopt a Cat</span>
       </Link>
 
       <Link
         to={user ? "/account" : "/login"}
-        className="flex items-centered gap-2 border border-gray-300 rounded-full py-2 px-4"
+        className="bg-white flex items-centered gap-2 border border-gray-300 rounded-full py-2 px-4"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
         <div className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
